@@ -89,4 +89,30 @@ function byteadder(byteA, byteB) {
 }
 
 
-console.log(toggleBoolean(byteadder(booDataA, booDataB)))
+// console.log(toggleBoolean(byteadder(booDataA, booDataB)))
+
+
+// Mission2: 진법 변환기
+
+const NUMBER = 2;
+function getQuo(num) {
+  let count = 0;
+  while (num >= NUMBER) {
+    num = num - NUMBER;
+    count++;
+  }
+  return count;
+}
+const rest = (num) => num % NUMBER === 1;
+
+function dec2bin(decimal) {
+  let answer = [];
+  while (decimal) {
+    answer.push(rest(decimal));
+    decimal = getQuo(decimal);
+  }
+  return answer;
+}
+
+
+console.log(dec2bin(10))

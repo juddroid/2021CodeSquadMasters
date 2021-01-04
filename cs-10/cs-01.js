@@ -115,4 +115,17 @@ function dec2bin(decimal) {
 }
 
 
-console.log(dec2bin(10))
+// console.log(dec2bin(10))
+
+
+const data = [0, 1, 0, 1]
+
+function bin2dec(bin) {
+  var answer = 0;
+  for (let i = 0; i < bin.length; i++) {
+    answer += NUMBER ** i * bin[i]
+  }
+  return answer;
+}
+
+console.log(bin2dec(data))

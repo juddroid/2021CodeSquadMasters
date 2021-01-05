@@ -2,11 +2,11 @@
 
 // Mission1-1: halfadder fulladder
 // XOR
-const xor = (a, b) => a !== b
+const xor = (a, b) => a !== b;
 // AND
-const and = (a, b) => a && b
+const and = (a, b) => a && b;
 // OR
-const or = (a, b) => a || b
+const or = (a, b) => a || b;
 
 const carry = and;
 const sum = xor;
@@ -23,10 +23,10 @@ function fulladder(bitA, bitB, carryVal = false) {
   let carryA = and(bitA, bitB);
   let sumB = xor(carryVal, sumA);
   let carryB = and(carryVal, sumA);
-  let carry = or(carryA, carryB)
+  let carry = or(carryA, carryB);
   // let fullCarry = or(and(bitA, bitB), and(xor(bitA, bitB), carryC))
   // let fullSum = xor(xor(bitA, bitB), carryC)
-  let answer = [carry, sumB]
+  let answer = [carry, sumB];
   return answer;
 }
 
@@ -47,30 +47,29 @@ function fulladder(bitA, bitB, carryVal = false) {
 // console.log(fulladder(true, true, false))
 // console.log(fulladder(true, true, true))
 
-
 // Mission1-2: byteadder
 
 // boolean to number
 function toggleBoolean(arr) {
   let newArr = [];
   for (element of arr) {
-    if (typeof(arr[0]) === 'boolean') {
-        element ? newArr.push(1) : newArr.push(0)
-        }
-    if (typeof(arr[0]) === 'number') {
-        element === 1 ? newArr.push(true) : newArr.push(false)
-        }
+    if (typeof arr[0] === "boolean") {
+      element ? newArr.push(1) : newArr.push(0);
     }
+    if (typeof arr[0] === "number") {
+      element === 1 ? newArr.push(true) : newArr.push(false);
+    }
+  }
   return newArr;
 }
 
-const dataA  = [ 1, 1, 0, 1, 1, 0, 1, 0 ]
-const dataB  = [ 1, 0, 1, 1, 0, 0, 1, 1 ]
+const dataA = [1, 1, 0, 1, 1, 0, 1, 0];
+const dataB = [1, 0, 1, 1, 0, 0, 1, 1];
 
 // const dataA  = [ 1, 1, 0, 0, 1, 0, 1, 0 ]
 // const dataB  = [ 1, 1, 0, 1, 1, 0, 0, 1 ]
-const booDataA = toggleBoolean(dataA)
-const booDataB = toggleBoolean(dataB)
+const booDataA = toggleBoolean(dataA);
+const booDataB = toggleBoolean(dataB);
 
 function byteadder(byteA, byteB) {
   let answer = [];
@@ -78,19 +77,16 @@ function byteadder(byteA, byteB) {
   for (let i = 0; i < byteA.length; i++) {
     let full = fulladder(byteA[i], byteB[i], carryVal);
     answer.push(full[1]);
-    carryVal = full[0]
+    carryVal = full[0];
     if (i === byteA.length - 1) {
-      answer.push(carryVal)
+      answer.push(carryVal);
     }
   }
-  
-  return answer;
 
+  return answer;
 }
 
-
 // console.log(toggleBoolean(byteadder(booDataA, booDataB)))
-
 
 // Mission2: 진법 변환기
 
@@ -114,29 +110,26 @@ function dec2bin(decimal) {
   return answer;
 }
 
-
 // console.log(dec2bin(10))
 
-
-const data = [0, 1, 0, 1]
+const data = [0, 1, 0, 1];
 
 function bin2dec(bin) {
   var answer = 0;
   for (let i = 0; i < bin.length; i++) {
-    answer += NUMBER ** i * bin[i]
+    answer += NUMBER ** i * bin[i];
   }
   return answer;
 }
 
-console.log(bin2dec(data))
-
+console.log(bin2dec(data));
 
 function plusBin(dec1, dec2) {
-  let bin1 = dec2bin(dec1)
-  let bin2 = dec2bin(dec2)
-  let plusBin = byteadder(bin1, bin2)
-  let result = bin2dec(plusBin)
-  return result
+  let bin1 = dec2bin(dec1);
+  let bin2 = dec2bin(dec2);
+  let plusBin = byteadder(bin1, bin2);
+  let result = bin2dec(plusBin);
+  return result;
 }
 
-console.log(plusBin(11, 12))
+console.log(plusBin(11, 12));

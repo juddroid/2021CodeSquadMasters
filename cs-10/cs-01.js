@@ -30,7 +30,7 @@ function fulladder(bitA, bitB, carryVal = false) {
   return answer;
 }
 
-
+//test
 // check halfadder
 // console.log(halfadder(false, false))
 // console.log(halfadder(false, true))

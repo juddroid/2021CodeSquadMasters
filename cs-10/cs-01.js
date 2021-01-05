@@ -129,3 +129,14 @@ function bin2dec(bin) {
 }
 
 console.log(bin2dec(data))
+
+
+function plusBin(dec1, dec2) {
+  let bin1 = dec2bin(dec1)
+  let bin2 = dec2bin(dec2)
+  let plusBin = byteadder(bin1, bin2)
+  let result = bin2dec(plusBin)
+  return result
+}
+
+console.log(plusBin(11, 12))

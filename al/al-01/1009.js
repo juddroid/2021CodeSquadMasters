@@ -6,10 +6,10 @@
 // 총 데이터의 개수는 항상 ab개의 형태로 주어진다.
 // 재용이는 문득 마지막 데이터가 처리될 컴퓨터의 번호가 궁금해졌다. 이를 수행해주는 프로그램을 작성하라.
 
-// var fs = require("fs");
-// var input = fs.readFileSync("./1009-test-case.js").toString().split("\n");
-const line = require("fs").readFileSync("./1009-test-case.js", "utf8");
-let input = line.trim().split("\n");
+var fs = require("fs");
+var input = fs.readFileSync("./1009-test-case.js").toString().split("\n");
+// const line = require("fs").readFileSync("./1009-test-case.js", "utf8");
+// let input = line.trim().split("\n");
 
 function inputList(arr) {
   let tempList = [];
@@ -19,37 +19,44 @@ function inputList(arr) {
   return tempList;
 }
 
-console.log(inputList(input));
+// console.log(inputList(input));
 
-// let input = [
-//   ["5"],
-//   ["1", "6"],
-//   ["3", "7"],
-//   ["6", "2"],
-//   ["7", "100"],
-//   ["9", "635"],
-// ];
+// let input = [["5"], ["1", "6"], ["2", "1"], ["2", "9"], ["2", "4"], ["2", "7"]];
 
 function findingLastComputer(item) {
-  function findingInputLastNumber(item) {
-    let inputLast = item.toString();
-    let result = parseInt(inputLast[inputLast.length - 1]);
-    return result;
-  }
-  function taskOperate(int1, int2, fixInt = int1) {
+  //function findingInputLastNumber(item) {
+  //  let inputLast = item.toString();
+  //  let result = Number(inputLast[inputLast.length - 1]);
+  //  console.log(`item: ${item}, result: ${result}`);
+  //  return result;
+  //}
+  function taskOperate(int1, int2) {
     const RECURSION_NUMBER = 4;
-    const TEMP_LIST = [];
-    for (let i = 0; i < RECURSION_NUMBER; i++) {
+    const TEMP_LIST = [Number(int1)];
+    const fixInt = int1;
+
+    for (let i = 0; i < RECURSION_NUMBER - 1; i++) {
       let int1_temp = (int1 * fixInt).toString();
-      let int1_Last = parseInt(int1_temp[int1_temp.length - 1]);
+      let int1_Last = Number(int1_temp[int1_temp.length - 1]);
       TEMP_LIST.push(int1_Last);
       int1 = int1_Last;
     }
-    let result = TEMP_LIST[((int2 - 1) % RECURSION_NUMBER) - 1];
+
+    console.log("TEMP_LIST: ", TEMP_LIST);
+
+    let result = TEMP_LIST[(int2 % RECURSION_NUMBER) - 1];
+
+    if (int2 % RECURSION_NUMBER === 0) {
+      result = TEMP_LIST[3];
+    }
+    if (result === 0) {
+      result = 10;
+    }
     return result;
   }
-  let a = findingInputLastNumber(item[0]);
-  let b = parseInt(item[1]);
+
+  let a = item[0][item[0].length - 1]; //findingInputLastNumber(item[0]);
+  let b = Number(item[1]);
   let lastComputerNumber = taskOperate(a, b);
   return lastComputerNumber;
 }
@@ -57,7 +64,7 @@ function findingLastComputer(item) {
 // console.log(findingLastComputer(inputList[5]));
 
 function printLastNumber(arr) {
-  for (let i = 1; i < parseInt(arr[0]) + 1; i++) {
+  for (let i = 1; i < Number(arr[0]) + 1; i++) {
     console.log(findingLastComputer(arr[i]));
   }
   return;

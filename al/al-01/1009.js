@@ -8,43 +8,48 @@
 
 // var fs = require("fs");
 // var input = fs.readFileSync("./1009-test-case.js").toString().split("\n");
+const line = require("fs").readFileSync("./1009-test-case.js", "utf8");
+let input = line.trim().split("\n");
 
 function inputList(arr) {
-  let inputList = [];
+  let tempList = [];
   for (raccoon of arr) {
-    inputList.push(raccoon.split(" "));
+    tempList.push(raccoon.split(" "));
   }
-  return inputList;
+  return tempList;
 }
 
-// console.log(inputList(input));
+console.log(inputList(input));
 
-let input = [
-  ["5"],
-  ["1", "6"],
-  ["3", "7"],
-  ["6", "2"],
-  ["7", "100"],
-  ["9", "635"],
-];
+// let input = [
+//   ["5"],
+//   ["1", "6"],
+//   ["3", "7"],
+//   ["6", "2"],
+//   ["7", "100"],
+//   ["9", "635"],
+// ];
 
 function findingLastComputer(item) {
   function findingInputLastNumber(item) {
     let inputLast = item.toString();
-    let result = Number(inputLast[inputLast.length - 1]);
+    let result = parseInt(inputLast[inputLast.length - 1]);
     return result;
   }
   function taskOperate(int1, int2, fixInt = int1) {
-    let tempNumber = (int1 * fixInt).toString();
-    let lastNumber = Number(tempNumber[tempNumber.length - 1]);
-    int2--;
-    if (int2 <= 1) {
-      return lastNumber;
+    const RECURSION_NUMBER = 4;
+    const TEMP_LIST = [];
+    for (let i = 0; i < RECURSION_NUMBER; i++) {
+      let int1_temp = (int1 * fixInt).toString();
+      let int1_Last = parseInt(int1_temp[int1_temp.length - 1]);
+      TEMP_LIST.push(int1_Last);
+      int1 = int1_Last;
     }
-    return taskOperate(int1, int2, lastNumber);
+    let result = TEMP_LIST[((int2 - 1) % RECURSION_NUMBER) - 1];
+    return result;
   }
   let a = findingInputLastNumber(item[0]);
-  let b = Number(item[1]);
+  let b = parseInt(item[1]);
   let lastComputerNumber = taskOperate(a, b);
   return lastComputerNumber;
 }
@@ -52,11 +57,11 @@ function findingLastComputer(item) {
 // console.log(findingLastComputer(inputList[5]));
 
 function printLastNumber(arr) {
-  for (let i = 1; i < Number(arr[0]) + 1; i++) {
+  for (let i = 1; i < parseInt(arr[0]) + 1; i++) {
     console.log(findingLastComputer(arr[i]));
   }
   return;
 }
 
-// printLastNumber(inputList(input));
-printLastNumber(input);
+printLastNumber(inputList(input));
+// printLastNumber(input);

@@ -6,17 +6,34 @@
 // 총 데이터의 개수는 항상 ab개의 형태로 주어진다.
 // 재용이는 문득 마지막 데이터가 처리될 컴퓨터의 번호가 궁금해졌다. 이를 수행해주는 프로그램을 작성하라.
 
-var fs = require("fs");
-var input = fs.readFileSync("./1009-test-case.js").toString().split("\n");
+// var fs = require("fs");
+// var input = fs.readFileSync("./1009-test-case.js").toString().split("\n");
 
-const inputList = [];
-for (raccoon of input) {
-  inputList.push(raccoon.split(" "));
+function inputList(arr) {
+  let inputList = [];
+  for (raccoon of arr) {
+    inputList.push(raccoon.split(" "));
+  }
+  return inputList;
 }
 
-// console.log(inputList);
+// console.log(inputList(input));
+
+let input = [
+  ["5"],
+  ["1", "6"],
+  ["3", "7"],
+  ["6", "2"],
+  ["7", "100"],
+  ["9", "635"],
+];
 
 function findingLastComputer(item) {
+  function findingInputLastNumber(item) {
+    let inputLast = item.toString();
+    let result = Number(inputLast[inputLast.length - 1]);
+    return result;
+  }
   function taskOperate(int1, int2, fixInt = int1) {
     let tempNumber = (int1 * fixInt).toString();
     let lastNumber = Number(tempNumber[tempNumber.length - 1]);
@@ -26,7 +43,7 @@ function findingLastComputer(item) {
     }
     return taskOperate(int1, int2, lastNumber);
   }
-  let a = Number(item[0]);
+  let a = findingInputLastNumber(item[0]);
   let b = Number(item[1]);
   let lastComputerNumber = taskOperate(a, b);
   return lastComputerNumber;
@@ -38,6 +55,8 @@ function printLastNumber(arr) {
   for (let i = 1; i < Number(arr[0]) + 1; i++) {
     console.log(findingLastComputer(arr[i]));
   }
+  return;
 }
 
-printLastNumber(inputList);
+// printLastNumber(inputList(input));
+printLastNumber(input);

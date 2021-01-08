@@ -12,3 +12,8 @@
   - fs: fs가 node 모듈이었다.
 - 20210107
   - SSH: ssh는 보안 되지 않은 연결에 대 한 보안 로그인을 허용 하는 암호화 된 연결 프로토콜
+- 20210108
+  - TCP/IP
+  - NAT
+  - [STDIN / STDOUT](https://ko.wikipedia.org/wiki/%ED%91%9C%EC%A4%80_%EC%8A%A4%ED%8A%B8%EB%A6%BC)
+  - REDIRECTION

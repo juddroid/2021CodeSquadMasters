@@ -4,11 +4,11 @@
 - 조금만! 예쁘게 만들어보기로 함
 - vimrc 수정
 
-  ![capture25](../img/cs02_25.jpg)
+  ![cs02_25](https://user-images.githubusercontent.com/70361152/104014969-4321e980-51f7-11eb-86b2-5904ed4c84e2.jpg)
 
 - Shell Script 실습 중
 
-  ![capture26](../img/cs02_26.jpg)
+  ![cs02_26](https://user-images.githubusercontent.com/70361152/104014970-43ba8000-51f7-11eb-9b74-bd4faa2f1213.jpg)
 
 - script를 보다보니 [#!/bin/sh](https://storycompiler.tistory.com/101) 가 계속 나오는데 뭔지 궁금해져서 좀 찾아봤다.
 
@@ -16,7 +16,7 @@
   ls -la /bin/sh
   ```
 
-  ![capture27](../img/cs02_27.jpg)
+  ![cs02_27](https://user-images.githubusercontent.com/70361152/104014971-43ba8000-51f7-11eb-821a-d4d397b7c5a4.jpg)
 
   ```
   lrwxrwxrwx 1 root root 4 Aug  5 06:39 /bin/sh -> dash
@@ -30,9 +30,9 @@
 
 - 뭔지 알고만 넘어가려고 했던 **#!/bin/sh**가 말썽을 일으킴
 
-  ![captureQ](../img/q_01.jpg)
-  ![captureQ](../img/q_02.jpg)
-  ![captureQ](../img/q_03.jpg)
+  ![q_01](https://user-images.githubusercontent.com/70361152/104015416-f2f75700-51f7-11eb-9341-3846b367af65.JPG)
+  ![q_02](https://user-images.githubusercontent.com/70361152/104015419-f38fed80-51f7-11eb-88a4-a2d465635cf4.JPG)
+  ![q_03](https://user-images.githubusercontent.com/70361152/104015422-f4288400-51f7-11eb-852b-0f494b290ab2.JPG)
 
   ```
   #!bin/sh
@@ -100,7 +100,7 @@
 
     - 그런데 오류가 안나고 정상작동함
 
-      ![capture28](../img/cs02_28.jpg)
+      ![cs02_28](https://user-images.githubusercontent.com/70361152/104014972-44531680-51f7-11eb-908e-f008a9e14b34.jpg)
 
     - 왜 되는지 모르겠지만 일단 Shell script를 공부해야 하므로 다음 단계로 넘어가기로 함
 
@@ -108,11 +108,11 @@
 
 - 테스트를 자주 하게 될 것 같아서 mkdir(폴더 만들기)과 rmdir(폴더 지우기)파일 생성
 
-  ![capture29](../img/cs02_29.jpg)
+  ![cs02_29](https://user-images.githubusercontent.com/70361152/104014973-44531680-51f7-11eb-87b7-5990f6002fc9.jpg)
 
 - mkdir로 폴더 생성
 
-  ![capture30](../img/cs02_30.jpg)
+  ![cs02_30](https://user-images.githubusercontent.com/70361152/104014974-44ebad00-51f7-11eb-9e49-204cacd56d88.jpg)
 
 ## 2. 각 폴더에 불특정하게 .cs 파일 넣어두기
 
@@ -124,4 +124,24 @@
 - 생각보다 쉽지 않다.
 - 잘못하면 폴더가 엄청 많이 생기거나 반대로 완전 다 지워질 수도 있을 것 같다.
 - 그래서 먼저 echo 정도로 테스트를 하는 중
-  ![capture31](../img/cs02_31.jpg)
+  ![cs02_31](https://user-images.githubusercontent.com/70361152/104014975-44ebad00-51f7-11eb-9340-8408463e77b6.jpg)
+
+- cs파일들만 불러내는건 성공
+  ![cs02_32](https://user-images.githubusercontent.com/70361152/104017070-cb55be00-51fa-11eb-9c72-4fb92b70ba58.jpg)
+
+  - 그런데 파일이 두 개 이상이면 오류가 난다.
+
+- 조건문 안에 띄어쓰기 수정 후 test 정상 작동 확인
+  ![cs02_33](https://user-images.githubusercontent.com/70361152/104017699-ed9c0b80-51fb-11eb-9abc-8ce4de13e353.jpg)
+
+- 몇 가지 경우를 고려해서 조금 더 수정했다.
+  - 파일이 여러개일 경우
+  - 확장자가 다를 경우
+  - cs 파일은 없지만 다른 파일이 있을 경우
+  - [왜 나만 정규식을 보고있는 것 같지... 이렇게 하는게 아닌가](https://blog.leocat.kr/notes/2017/07/27/shell-count-folders-and-files)
+    ![cs02_34](https://user-images.githubusercontent.com/70361152/104030213-61dfaa80-520e-11eb-9ad4-defb1509bbb8.jpg)
+- install zip
+  ```
+  sudo apt-get install zip
+  ```
+  ![cs02_35](https://user-images.githubusercontent.com/70361152/104031764-8472c300-5210-11eb-8460-cd6d2ce192f4.jpg)

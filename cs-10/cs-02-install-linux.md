@@ -45,10 +45,12 @@
   - Msg: your host does not meet minimum requirements to run vmware player with hyper-v or device/credential guard enabled. refer to vmware kb article 76918
   - [해결방법은 두 가지](https://moonlight-spot.tistory.com/entry/VMware-15-player-%EC%84%A4%EC%B9%98-%EC%98%A4%EB%A5%98-%ED%95%B4%EA%B2%B0-error-Your-host-does-not-meet-minimum-requirements-to-run-VMware-workstation-with-hyper-v-or-devicecredential-guard-enabled-76918)
 
-    - 1.  ~~Update Windows Viersion~~
-    - 2.  Off the Hyper-V **(what I choose)**
+        - 1.  ~~Update Windows Viersion~~
+        - 2.  Off the Hyper-V **(what I choose)**
 
-    ![capture01](../img/cs02_01.jpg)
+        ![cs02_02](https://user-images.githubusercontent.com/70361152/104014581-9d6e7a80-51f6-11eb-89f4-d41b575c8b08.jpg)
+
+    )
 
 - cmd에서 다시 시도
 
@@ -56,15 +58,15 @@
   $ bcdedit /set hypervisorlaunchtype off
   ```
 
-  ![capture02](../img/cs02_02.jpg)
+  ![cs02_02](https://user-images.githubusercontent.com/70361152/104014935-3ac9ae80-51f7-11eb-944c-4714e0f65372.jpg)
 
 - 재부팅 후... 성공한듯
 
-  ![capture03](../img/cs02_03.jpg)
+  ![cs02_03](https://user-images.githubusercontent.com/70361152/104014936-3b624500-51f7-11eb-9d06-404cd752f519.jpg)
 
 - Success
 
-  ![capture04](../img/cs02_04.jpg)
+  ![cs02_04](https://user-images.githubusercontent.com/70361152/104014939-3bfadb80-51f7-11eb-8bb2-9068ac92e6ab.jpg)
 
 ### [4. Setting SSH](https://docs.microsoft.com/ko-kr/azure/virtual-machines/linux/ssh-from-windows)
 
@@ -74,7 +76,7 @@
   ssh-keygen -m PEM -t rsa -b 4096
   ```
 
-  ![capture05](../img/cs02_05.jpg)
+  ![cs02_05](https://user-images.githubusercontent.com/70361152/104014940-3c937200-51f7-11eb-832b-14978a2580da.jpg)
 
   - ? /home/raccoon/.ssh 에 뭔가 있을줄 알았는데 폴더가 없다. 불안하다.
   - 이 위치에 다시 path를 설정했다.
@@ -101,7 +103,7 @@
     ifconfig
     ```
 
-    ![capture06](../img/cs02_06.jpg)
+    ![cs02_06](https://user-images.githubusercontent.com/70361152/104014941-3c937200-51f7-11eb-892d-475f4dcef169.jpg)
 
     - ipconfig라고 입력하니까 ifconfig 추천해주는거 신기했음
     - **볼수록 예쁘다. 우분투**
@@ -109,7 +111,7 @@
 
   - ping 확인
 
-    ![capture07](../img/cs02_07.jpg)
+    ![cs02_07](https://user-images.githubusercontent.com/70361152/104014942-3d2c0880-51f7-11eb-9022-60b1e801c87d.jpg)
 
     - 일단 여기까지는 뭔가 되고 있는 것 같음
 
@@ -117,13 +119,13 @@
   - [Install PuTTY](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html)
   - 확인했던 ip주소를 입력하고, 확인을 누르면 경고창이 나타남
 
-    ![capture08](../img/cs02_08.jpg)
+    ![cs02_08](https://user-images.githubusercontent.com/70361152/104014945-3dc49f00-51f7-11eb-8eb1-6fc4a0426f8d.jpg)
 
     - Yes 하면 더 이상 나타나지 않지만, 보안을 위해 No 하는걸 권장
 
   - 여기까지는 성공
 
-    ![capture09](../img/cs02_09.jpg)
+    ![cs02_09](https://user-images.githubusercontent.com/70361152/104014946-3dc49f00-51f7-11eb-9d37-db1029977def.jpg)
 
   - ~~그런데 이건 PuTTY를 사용한거지 SSH를 이용한게 아닌 것 같음~~
     - PuTTY를 통해 SSH로 VM Ubuntu에 접근한거라고 다시 이해하고 있다.
@@ -136,14 +138,14 @@
     - 위에서 언급한 건 windows 환경에서 이고, ubuntud에서도 설정했어야 했다.
     - 정확한 개념이 없는 상태에서 username을 전부 raccoon으로 했더니 굉장히 혼란스러웠다.
 
-    ![capture10](../img/cs02_10.jpg)
+    ![cs02_10](https://user-images.githubusercontent.com/70361152/104014947-3e5d3580-51f7-11eb-9a5b-f57486ffe884.jpg)
 
   - SSH config파일 수정
 
     - Ubuntu에서 수정했어야 했다.
     - 방향키도 인정안하는 리얼 vi체험
 
-    ![capture11](../img/cs02_11.jpg)
+    ![cs02_11](https://user-images.githubusercontent.com/70361152/104014948-3e5d3580-51f7-11eb-8fd6-71bfc8319e3e.jpg)
 
   - 결국 또 PuTTY라는 걸로 접속해야 된다고 함
   - 도대체 PuTTY가 뭔데...
@@ -156,7 +158,7 @@
   - [우분투에 SSH server 설치하기](https://www.youtube.com/watch?v=ow-uAzvAkmU)
   - 이 영상이 도움이 많이 됐다.
 
-    ![capture12](../img/cs02_12.jpg)
+    ![cs02_12](https://user-images.githubusercontent.com/70361152/104014949-3ef5cc00-51f7-11eb-8600-9d6ab7237a94.jpg)
 
   - 원하는 형태로 접속했다.
   - [오늘 찾아본 링크 중에 가장 설명이 쉽게 잘 되어있는 글 같다.](https://velog.io/@younho9/Mac-%EB%B2%84%EC%B6%94%EC%96%BC%EB%B0%95%EC%8A%A4VirtualBox%EC%97%90-%EC%84%A4%EC%B9%98%EB%90%9C-%EC%9A%B0%EB%B6%84%ED%88%ACUbuntu-%EB%A7%A5-%ED%84%B0%EB%AF%B8%EB%84%90%EC%97%90%EC%84%9C-%EC%A0%91%EC%86%8D%ED%95%98%EA%B8%B0)
@@ -166,7 +168,7 @@
 
 - 아 이게 아까 했던거였음
 
-  ![capture13](../img/cs02_13.jpg)
+  ![cs02_13](https://user-images.githubusercontent.com/70361152/104014952-3ef5cc00-51f7-11eb-9791-ca805334345e.jpg)
 
 - 아닌 것 같다.
   - 이제 Ununtu는 Root권한을 막아놓는 특성이 있고, raccoon은 ubuntu 설치할 때 생성된 user 계정이다.
@@ -198,11 +200,11 @@
   sudo passwd juddroid
   ```
   - password 생성
-    ![capture15](../img/cs02_15.jpg)
+    ![cs02_15](https://user-images.githubusercontent.com/70361152/104014955-3f8e6280-51f7-11eb-9713-adeee5685306.jpg)
   - juddroid로 접속
-    ![capture16](../img/cs02_16.jpg)
+    ![cs02_16](https://user-images.githubusercontent.com/70361152/104014956-4026f900-51f7-11eb-803f-8c6bec4255dc.jpg)
   - ubuntu에서 봐도 juddroid가 출석해있다. 성공인 것 같다.
-    ![capture17](../img/cs02_17.jpg)
+    ![cs02_17](https://user-images.githubusercontent.com/70361152/104014957-4026f900-51f7-11eb-868a-e9c5096185ba.jpg)
 
 ## 7. Juddroid 계정에서 작업하기
 
@@ -212,7 +214,7 @@
   sudo mkdir /backup
   ```
 
-  ![capture18](../img/cs02_18.jpg)
+  ![cs02_18](https://user-images.githubusercontent.com/70361152/104014958-40bf8f80-51f7-11eb-91dd-8d0c83b42bf6.jpg)
 
 - raccoon은 sudo 권한이 있는데, juddroid는 sudo 권한이 없다.
 - 일단 root권한
@@ -224,19 +226,19 @@
   vi /etc/sudoers
   ```
 - sudoers에게 나도 권한 달라고하기
-  ![capture19](../img/cs02_19.jpg)
+  ![cs02_19](https://user-images.githubusercontent.com/70361152/104014959-40bf8f80-51f7-11eb-990a-7948fd2fc4db.jpg)
 
   - [vim으로 어렵게 편집](https://www.joinc.co.kr/w/Site/Vim/Documents/UsedVim)
 
 - /backup 디렉토리 생성 완료
-  ![capture20](../img/cs02_20.jpg)
+  ![cs02_20](https://user-images.githubusercontent.com/70361152/104014960-41582600-51f7-11eb-86ec-a1572c4e9537.jpg)
 
 - **764모드로 접근 권한 바꿔서, 사용해보기**
 
   - 764모드는 뭔가!
     - [[Shell] chmod - 파일 및 폴더의 권한설정](https://nachwon.github.io/shell-chmod/)
   - 현재 backup 폴더 권한 확인(755)
-    ![capture21](../img/cs02_21.jpg)
+    ![cs02_21](https://user-images.githubusercontent.com/70361152/104014963-41f0bc80-51f7-11eb-83a2-97b167b28b32.jpg)
   - (755) 소유자: 7 / 그룹: 읽기, 실행 / 그 외: 읽기, 실행
   - (764) 소유자: 7 / 그룹: 읽기, 쓰기 / 그 외: 읽기
   - 그룹 유저는 실행권한이 없어지고, 쓰기 권한이 생긴다.
@@ -246,13 +248,13 @@
     ```
 
   - 변경된 것 확인(chmod는 root만 가능함을 확인)
-    ![capture22](../img/cs02_22.jpg)
+    ![cs02_22](https://user-images.githubusercontent.com/70361152/104014964-41f0bc80-51f7-11eb-8b1b-5fd1777ad7fc.jpg)
 
 ## 8. 가상환경에서 오늘 날짜 출력한 후 캡쳐하기
 
 - setting > date&time 에서 오늘 날짜로 변경
 
-  ![capture23](../img/cs02_23.jpg)
+  ![cs02_23](https://user-images.githubusercontent.com/70361152/104014966-42895300-51f7-11eb-909a-5d27b90c7017.jpg)
 
 - 가상환경 터미널에서 오늘 날짜 출력
 
@@ -260,6 +262,4 @@
   date
   ```
 
-  ![capture24](../img/cs02_24.jpg)
-
-# Mission: Shell script 정복기
+  ![cs02_24](https://user-images.githubusercontent.com/70361152/104014967-4321e980-51f7-11eb-9bff-04cbaaabd04f.jpg)

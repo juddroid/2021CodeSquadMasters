@@ -261,3 +261,5 @@
   ```
 
   ![capture24](../img/cs02_24.jpg)
+
+# Mission: Shell script 정복기

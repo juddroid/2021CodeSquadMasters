@@ -141,7 +141,122 @@
   - [왜 나만 정규식을 보고있는 것 같지... 이렇게 하는게 아닌가](https://blog.leocat.kr/notes/2017/07/27/shell-count-folders-and-files)
     ![cs02_34](https://user-images.githubusercontent.com/70361152/104030213-61dfaa80-520e-11eb-9ad4-defb1509bbb8.jpg)
 - install zip
+
   ```
   sudo apt-get install zip
   ```
+
   ![cs02_35](https://user-images.githubusercontent.com/70361152/104031764-8472c300-5210-11eb-8460-cd6d2ce192f4.jpg)
+
+- 파일 경로를 담아서 압축을 시도했다.
+
+  ![cs02_36](https://user-images.githubusercontent.com/70361152/104052929-c827f580-522d-11eb-832c-fb114c605fd0.jpg)
+
+- 파일들이 제대로 압축이 되었는지 확인해봤다.
+
+  ![cs02_37](https://user-images.githubusercontent.com/70361152/104053368-7469dc00-522e-11eb-8415-bd8921eed486.jpg)
+
+  - 각각의 폴더가 다 들어가버렸고, 그 안에 cs파일이 아닌 파일까지 들어가버렸다.
+  - 별게 다 들어가있다.
+
+- **아무리 생각해도 폴더를 새로 만들지 않고, 파일만 가져올 방법이 생각이 안난다.**
+- 처음 방법대로 폴더를 만들어서 파일을 찾으면 복사를 하는 방법으로 돌아가야겠다.
+
+  ```
+  #!/bin/bash
+
+  FOLDER_SIZE=`ls -l cs-02 | grep ^d | wc -l`
+  DATE=$(date +%Y%m%d)
+  DIR="./cs-02"
+  NUM=1
+  mkdir cs_backup
+  while [ "$NUM" != "$(($FOLDER_SIZE+1))" ]
+  do
+    if [ -e $DIR/day$NUM/*.cs ]; then
+      cp $DIR/day$NUM/*.cs ./cs_backup
+      elif [ `ls -l cs-02 | grep ^- | wc -l` == 0 ]; then
+      echo "day$NUM is empty"
+      else
+      echo "not empty, not cs"
+    fi
+    NUM=$(($NUM+1))
+  done
+
+  zip "backup_$DATE.zip" ./cs_backup
+  ```
+
+- 결과는 4번에 cs파일이 아닌 파일이 있는데 비어있다고 하는 것 빼고는 정상이다.
+
+  ![cs02_38](https://user-images.githubusercontent.com/70361152/104057767-045f5400-5236-11eb-80cc-db4d8ae98542.jpg)
+
+- cs_backup 폴더에도 파일이 잘 복사되어 있다.
+
+  ![cs02_39](https://user-images.githubusercontent.com/70361152/104057772-05908100-5236-11eb-94dc-aad14abee915.jpg)
+
+- 그런데 압축파일안에 cs_backup 폴더가 빈 폴더다. 어찌된일일까..
+- 마지막에 \*을 빠뜨렸다. 압축성공!
+
+  ```
+  zip "backup_$DATE.zip" ./cs_backup/*
+  ```
+
+- 작은 bug는 일단 남겨두고, VM Ubuntu에 있는 backup 폴더로 복사해야겠다.
+- 성공...
+
+  ![cs02_40](https://user-images.githubusercontent.com/70361152/104059181-3c679680-5238-11eb-8b74-359cf63e6bf4.jpg)
+
+  - 하는 줄 알았는데 Permission denied 당했다.
+
+- chmod 764 이니 group user인 juddroid에게 w권한이 있다고 생각하는데 왜 안되는지 모르겠다.
+- 일단 root로 보내니 성공했다.
+
+  ![cs02_41](https://user-images.githubusercontent.com/70361152/104059187-3d98c380-5238-11eb-87fc-954fc7e6b608.jpg)
+
+- vm에서도 파일이 잘 전송된게 보인다.
+
+  ![cs02_42](https://user-images.githubusercontent.com/70361152/104059188-3d98c380-5238-11eb-9215-3e2539e22d9f.jpg)
+
+- 그룹 소유자를 변경해보면 어떨까 싶어서 변경해 본다.
+
+  ```
+  sudo chown :juddroid backup
+  ```
+
+  ![cs02_43](https://user-images.githubusercontent.com/70361152/104060117-cc5a1000-5239-11eb-8758-868590b56d5b.jpg)
+
+- 결국 Root로만 성공
+
+- 마지막으로 공개키/비밀키에 대해서 조금 공부했고, 흥미로웠으니까 그것까지 성공시켜 보고 싶음
+- 키 복사
+
+  ```
+  ssh-copy-id -i ~/.ssh/id_rsa.pub 192.168.32.128
+  ```
+
+  ![cs02_45](https://user-images.githubusercontent.com/70361152/104063614-cd8e3b80-523f-11eb-9351-15c4d662783e.jpg)
+
+- service restart
+
+  ```
+  service sshd restart
+  ```
+
+- 여기에서 되는 줄 알았으나 결국 실패
+- permission denied도 그렇긴한데 자동로그인도 안된다 왜지?
+  ![cs02_46](https://user-images.githubusercontent.com/70361152/104063621-cebf6880-523f-11eb-9093-5826062f2208.jpg)
+
+- 라고 말하는 순간 -i 설정이 생각났다.
+- 첫도전은 실패
+
+  ![cs02_47](https://user-images.githubusercontent.com/70361152/104064713-c1a37900-5241-11eb-8eab-0f20d4a8a553.jpg)
+
+- 다시 재부팅.. 할 수 있는건 다 해보자
+
+  ![cs02_48](https://user-images.githubusercontent.com/70361152/104064717-c2d4a600-5241-11eb-91ce-11cce9683e70.jpg)
+
+- 퍼블릭 키로 다시 시도... 했더니 오류가 나면서 내 키를 무시한다.
+
+  ![cs02_49](https://user-images.githubusercontent.com/70361152/104064718-c2d4a600-5241-11eb-8b52-67f1b2dbf281.jpg)
+
+- 퍼미션 설정도 확인해봤고, 길이 막혔다.
+- 왜 안될까...

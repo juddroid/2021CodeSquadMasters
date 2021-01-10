@@ -1,13 +1,15 @@
 #!/bin/bash
 
-if [ -d ./backup_20210109 ]; then
-  rm -r backup_20210109
+DATE=$(date +%Y%m%d)
+
+if [ -d ./backup_$DATE ]; then
+  rm -r backup_$DATE
 fi
 
 if [ -d ./cs_backup ]; then
   rm -r cs_backup
 fi
 
-if [ -e ./backup_20210109.zip ]; then
-  rm backup_20210109.zip
+if [ -e ./backup_$DATE.zip ]; then
+  rm backup_$DATE.zip
 fi

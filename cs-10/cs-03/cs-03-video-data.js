@@ -10,12 +10,9 @@ const CLIPS = 13;
 const randomPlayTime = () => Math.floor(Math.random() * (15 - 0) + 1);
 const getId = function () {
   const ID_LENGTH = 4;
-  const randomIndex = () => Math.floor(Math.random() * (string.length - 0) + 0);
-  const string = "0123456789abcdefghijklmnopqrstuvwxyz";
-  let randomID = "";
-  for (let i = 0; i < ID_LENGTH; i++) {
-    randomID += string[randomIndex()];
-  }
+  let randomID = Math.random()
+    .toString(26)
+    .slice(2, 2 + ID_LENGTH);
   return randomID;
 };
 const myVideoClips = {};

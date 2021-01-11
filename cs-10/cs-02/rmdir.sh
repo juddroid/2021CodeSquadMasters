@@ -1,0 +1,1 @@
+rmdir ./cs-02-test/*

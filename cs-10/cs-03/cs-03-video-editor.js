@@ -70,7 +70,9 @@ function firstAdd(id) {
 }
 
 function insert(id, num) {
-  if (checkID(id)) {
+  if (isNaN(num)) {
+    return console.error("input number");
+  } else if (checkID(id)) {
     return console.error("wrong ID");
   } else if (existID(id)) {
     return console.error("already exsist");

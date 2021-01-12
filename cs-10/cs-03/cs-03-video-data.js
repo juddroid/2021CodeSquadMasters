@@ -19,7 +19,6 @@ class Clip {
 }
 
 function getClips(obj, title, count) {
-  let link = "";
   for (let i = 1; i < count + 1; i++) {
     obj[getID()] = new Clip(title, i, randomPlayTime());
   }

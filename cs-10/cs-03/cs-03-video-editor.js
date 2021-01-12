@@ -37,13 +37,28 @@ function link(cmd, id, num) {
       insert(id, num);
       break;
     case "delete":
+      remove(id);
       break;
     case "render":
+      render();
       break;
     default:
       break;
   }
 }
+
+const checkID = (id) => (!myClip[id] ? true : false);
+const existID = (id) => {
+  let check = false;
+  let current = LINKED_LIST.HEAD;
+  while (current) {
+    if (current.data === id) {
+      check = true;
+    }
+    current = current.next;
+  }
+  return check;
+};
 
 function firstAdd(id) {
   // insert next link
@@ -51,35 +66,84 @@ function firstAdd(id) {
   // insert node to linked list
   LINKED_LIST.HEAD = temp;
   LINKED_LIST.count++;
-  render();
+  draw();
 }
 
 function insert(id, num) {
-  if (num === 0) {
-    firstAdd(id);
+  if (checkID(id)) {
+    return console.error("wrong ID");
+  } else if (existID(id)) {
+    return console.error("already exsist");
+  } else {
+    if (num === 0) {
+      firstAdd(id);
+    } else {
+      // insert Fn 자리
+      if (num >= LINKED_LIST.count) {
+        lastAdd(id);
+      } else {
+        let temp = new Node(id);
+        let current, previous;
+        let count = 0;
+        current = LINKED_LIST.HEAD;
+
+        while (count < num) {
+          previous = current;
+          count++;
+          current = current.next;
+        }
+        temp.next = current;
+        previous.next = temp;
+        LINKED_LIST.count++;
+        draw();
+      }
+    }
   }
-  // insert Fn 자리
 }
 function lastAdd(id) {
-  let temp = new Node(id);
-  let current;
-  if (!LINKED_LIST.HEAD) {
-    firstAdd(id);
+  if (checkID(id)) {
+    return console.error("wrong ID");
+  } else if (existID(id)) {
+    return console.error("already exsist");
   } else {
-    current = LINKED_LIST.HEAD;
+    let temp = new Node(id);
+    let current;
+    if (!LINKED_LIST.HEAD) {
+      firstAdd(id);
+    } else {
+      current = LINKED_LIST.HEAD;
 
-    while (current.next) {
-      current = current.next;
+      while (current.next) {
+        current = current.next;
+      }
+      current.next = temp;
+      LINKED_LIST.count++;
+      draw();
     }
-    current.next = temp;
-    LINKED_LIST.count++;
-    render();
   }
 }
-function find() {}
-function remove() {}
 
-function render() {
+function remove(id) {
+  let current = LINKED_LIST.HEAD;
+  let previous = "";
+  // remove at first
+  if (current.data === id) {
+    LINKED_LIST.HEAD = current.next;
+  } else {
+    // remove at last
+
+    while (current.data !== id) {
+      previous = current;
+      current = current.next;
+    }
+    console.log(current);
+    previous.next = previous.next.next;
+  }
+  LINKED_LIST.count--;
+  draw();
+}
+
+function draw() {
   let head = `|`;
   let end = `---[end]`;
   let graph = `${head}${nodeData()}${end}`;
@@ -94,4 +158,15 @@ function nodeData() {
     current = current.next;
   }
   return info;
+}
+
+function render() {
+  let time = 0;
+  let current = LINKED_LIST.HEAD;
+  while (current) {
+    time += Number(myClip[current.data].playTime);
+    current = current.next;
+  }
+  console.log(`CLIP COUNT: ${LINKED_LIST.count}EA`);
+  console.log(`Play Time: ${time}sec`);
 }

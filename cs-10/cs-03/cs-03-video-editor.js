@@ -31,6 +31,7 @@ rl.on("line", (line) => {
 function link(cmd, id, num) {
   switch (cmd) {
     case "add":
+      lastAdd(id);
       break;
     case "insert":
       insert(id, num);
@@ -44,28 +45,39 @@ function link(cmd, id, num) {
   }
 }
 
+function firstAdd(id) {
+  // insert next link
+  let temp = new Node(id, LINKED_LIST.HEAD);
+  // insert node to linked list
+  LINKED_LIST.HEAD = temp;
+  LINKED_LIST.count++;
+  render();
+}
+
 function insert(id, num) {
   if (num === 0) {
     firstAdd(id);
   }
   // insert Fn 자리
+}
+function lastAdd(id) {
+  let temp = new Node(id);
+  let current;
+  if (!LINKED_LIST.HEAD) {
+    firstAdd(id);
+  } else {
+    current = LINKED_LIST.HEAD;
 
-  function firstAdd(id) {
-    // empty list
-    if (LINKED_LIST.count === 0) {
-      // insert next link
-      let temp = new Node(id, LINKED_LIST.HEAD);
-      // insert node to linked list
-      LINKED_LIST.HEAD = temp;
-      LINKED_LIST.count++;
+    while (current.next) {
+      current = current.next;
     }
+    current.next = temp;
+    LINKED_LIST.count++;
     render();
-    // not empty list
   }
 }
-function lastAdd() {}
 function find() {}
-// function delete() {}
+function remove() {}
 
 function render() {
   let head = `|`;
@@ -76,11 +88,10 @@ function render() {
 
 function nodeData() {
   let current = LINKED_LIST.HEAD;
+  let info = "";
   while (current) {
-    let info = `---[${LINKED_LIST.HEAD.data}, ${
-      myClip[LINKED_LIST.HEAD.data].playTime
-    }sec]`;
+    info += `---[${current.data}, ${myClip[current.data].playTime}sec]`;
     current = current.next;
-    return info;
   }
+  return info;
 }

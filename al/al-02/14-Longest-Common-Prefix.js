@@ -75,3 +75,5 @@ var longestCommonPrefix = function (strs) {
 };
 
 test();
+
+console.log("a");

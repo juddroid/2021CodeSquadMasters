@@ -28,6 +28,9 @@
  * @return {ListNode}
  */
 
+const chalk = require("chalk");
+const log = console.log;
+
 function ListNode(val, next) {
   this.val = val === undefined ? 0 : val;
   this.next = next === undefined ? null : next;
@@ -69,9 +72,9 @@ const test = function () {
   console.log("------------------------------------------------------------");
   console.log("--------------------------- Test ---------------------------");
   console.log("------------------------------------------------------------");
-  console.log(`          case1: ${checkObj(result1, ex1_output)}`);
+  console.log(`               case1: ${chalk.green(checkObj(result1, ex1_output))}`);
   console.log("------------------------------------------------------------");
-  console.log(`          case2: ${checkObj(result2, ex2_output)}`);
+  console.log(`               case2: ${chalk.red(checkObj(result2, ex2_output))}`);
   console.log("------------------------------------------------------------");
 };
 

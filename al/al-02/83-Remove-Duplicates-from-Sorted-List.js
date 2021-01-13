@@ -90,3 +90,4 @@ var deleteDuplicates = function (head) {
 };
 
 test();
+console.log(`.green, test`);

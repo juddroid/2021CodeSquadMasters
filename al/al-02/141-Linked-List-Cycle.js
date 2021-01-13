@@ -44,23 +44,20 @@ const head1 = { val: 1, next: { val: 2, next: null } };
 
 var hasCycle = function (head) {
   let current = head;
-  let visited = [];
 
   if (!current || !current.next) {
     return false;
   }
   while (current) {
-    if (checkVisit(visited, current.val)) {
+    if (checkVisit(current)) {
       return true;
     }
-    visited.push(current.val);
+    current.visit = true;
     current = current.next;
   }
-  function checkVisit(arr, cur) {
-    for (val of arr) {
-      if (val === cur) {
-        return true;
-      }
+  function checkVisit(cur) {
+    if (cur.visit) {
+      return true;
     }
   }
   return false;

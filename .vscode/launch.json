@@ -9,7 +9,7 @@
       "request": "launch",
       "name": "Node",
       "skipFiles": ["<node_internals>/**"],
-      "program": "${workspaceFolder}/al/al-01/10757.js",
+      "program": "${workspaceFolder}/al/al-02/09-Palindrome-Number.js",
       "runtimeExecutable": "/home/raccoon/.nvm/versions/node/v14.15.4/bin/node"
     }
   ]

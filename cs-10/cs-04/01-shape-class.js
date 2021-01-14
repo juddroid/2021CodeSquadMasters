@@ -11,13 +11,6 @@
 // 삼각형인 경우 삼각형의 넓이를 계산해서 출력한다.
 // =================================================================================================
 
-class Location {
-  constructor(rows, cols) {
-    this.rows = rows;
-    this.cols = cols;
-  }
-}
-
 class Point {
   constructor(rows, cols) {
     this.rows = rows;
@@ -26,53 +19,40 @@ class Point {
 }
 class Line {
   constructor(point1, point2) {
-    // super();
     this.point1 = point1;
     this.point2 = point2;
   }
+}
 
-  distance() {
-    let rowsLine = lineLength(this.point1.rows, this.point2.rows);
-    let colsLine = lineLength(this.point1.cols, this.point2.cols);
+Line.prototype.distance = function () {
+  let rowsLine = lineLength(this.point1.rows, this.point2.rows);
+  let colsLine = lineLength(this.point1.cols, this.point2.cols);
 
-    function pythagoras(line1, line2) {
-      return Math.sqrt(line1 ** 2 + line2 ** 2);
-    }
+  function pythagoras(line1, line2) {
+    return Math.sqrt(line1 ** 2 + line2 ** 2);
+  }
 
-    function lineLength(loc1, loc2) {
-      return Math.abs(loc1 - loc2);
-    }
-    return pythagoras(rowsLine, colsLine);
+  function lineLength(loc1, loc2) {
+    return Math.abs(loc1 - loc2);
+  }
+  return pythagoras(rowsLine, colsLine);
+};
+
+class Area {
+  constructor(line1, line2, line3, line4) {
+    this.line1 = line1;
+    this.line2 = line2;
+    this.line3 = line3;
+    this.line4 = line4;
+  }
+  triangleArea() {
+    let s = (this.line1 + this.line2 + this.line3) / 2;
+    let area = Math.sqrt(s * (s - this.line1) * (s - this.line2) * (s - this.line3));
+    return area;
+  }
+  rectangleArea() {
+    return this.line1 * this.line2;
   }
 }
 
-function straightLength(obj1, obj2) {
-  let currentLine1 = lineLength(obj1.rows, obj2.rows);
-  let currentLine2 = lineLength(obj1.cols, obj2.cols);
-  return pythagoras(currentLine1, currentLine2);
-}
-
-function pythagoras(line1, line2) {
-  return Math.sqrt(line1 ** 2 + line2 ** 2);
-}
-
-function lineLength(loc1, loc2) {
-  return Math.abs(loc1 - loc2);
-}
-
-class Graph {
-  constructor(rows, cols) {
-    this.rows = rows;
-    this.cols = cols;
-  }
-
-  drawRow() {
-    console.log("ㅡ");
-  }
-
-  drawCols() {
-    console.log("|");
-  }
-}
-
-module.exports = { straightLength, Location, Point, Line };
+module.exports = { Point, Line, Area };

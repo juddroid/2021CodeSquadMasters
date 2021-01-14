@@ -9,7 +9,7 @@
       "request": "launch",
       "name": "Node",
       "skipFiles": ["<node_internals>/**"],
-      "program": "${workspaceFolder}/al/al-02/141-Linked-List-Cycle.js",
+      "program": "${workspaceFolder}/cs-10/cs-04/02-graph.js",
       "runtimeExecutable": "/home/raccoon/.nvm/versions/node/v14.15.4/bin/node"
     }
   ]

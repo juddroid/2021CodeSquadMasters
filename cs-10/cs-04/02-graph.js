@@ -1,32 +1,15 @@
 let chalk = require("chalk");
 let y = chalk.yellow;
-let b = chalk.blue;
-let r = chalk.red;
-let g = chalk.green;
-let m = chalk.magenta;
 
-const GRAPH_RANGE = 25;
+const GRAPH_RANGE = 26;
 function graphArr() {
   let arr = [];
-  for (let i = 0; i < GRAPH_RANGE; i++) {
+  for (let i = 0; i < GRAPH_RANGE + 1; i++) {
     let temp = [];
-    for (let j = 0; j < GRAPH_RANGE; j++) {
-      temp.push("");
+    for (let j = 0; j < GRAPH_RANGE + 1; j++) {
+      temp.push("   ");
     }
     arr.push(temp);
-  }
-  return arr;
-}
-
-let graph24 = graphArr();
-
-// y
-function axisY(arr) {
-  for (let i = 0; i < GRAPH_RANGE; i++) {
-    if (i === GRAPH_RANGE) {
-      arr[i][1] = "";
-    }
-    arr[i][1] = "|";
   }
   return arr;
 }
@@ -35,41 +18,94 @@ function axisY(arr) {
 
 function axisX(arr) {
   let rows = "";
-  for (let i = 0; i < GRAPH_RANGE; i++) {
-    arr[23][i] = "___";
-    rows += arr[23][i];
+  for (let i = 0; i < GRAPH_RANGE + 1; i++) {
+    arr[GRAPH_RANGE - 1][i] = "---";
+    rows += arr[GRAPH_RANGE - 1][i];
   }
-  return arr;
 }
 
 // x: number
 function numAxisX(arr) {
-  let xNum = "";
-  for (let i = 0; i < GRAPH_RANGE; i++) {
-    if (i === 0) {
-      xNum += "0";
-    } else if (i % 2 === 0) {
-      if (i.toString().length === 1) {
-        xNum += `0${i}`;
-      } else {
-        xNum += i;
-      }
+  let temp = "";
+  for (let i = 2; i < GRAPH_RANGE; i += 2) {
+    if (i === 2) {
+      temp += ` ${i}`;
+    } else if (i.toString().length === 1) {
+      temp += `     ${i}`;
     } else {
-      xNum += "    ";
+      temp += `    ${i}`;
     }
+  }
+  arr[GRAPH_RANGE][2] = temp;
+  for (let i = 3; i < arr.length; i++) {
+    arr[GRAPH_RANGE][i] = "";
+  }
+}
+
+// y
+function axisY(arr) {
+  for (let i = 0; i < GRAPH_RANGE; i++) {
+    arr[i][1] = "| ";
+  }
+}
+
+// y: number
+function numAxisY(arr) {
+  let yNum = 24;
+  for (let i = 0; i < arr.length; i++) {
+    if ((yNum - i) % 2 === 0) {
+      arr[i][0] = `  `;
+    } else {
+      arr[i][0] = `${yNum}`;
+      if (yNum.toString().length === 1) {
+        arr[i][0] = ` ${yNum}`;
+      }
+      yNum -= 2;
+    }
+    arr[GRAPH_RANGE - 1][0] = "  ";
+  }
+  arr[GRAPH_RANGE][0] = "";
+  arr[GRAPH_RANGE][1] = "  0    ";
+  arr[GRAPH_RANGE - 1][1] = "+ ";
+}
+
+// white space
+function whiteSpace(arr) {
+  for (let i = 0; i < arr.length; i++) {
+    arr[i][arr.length] = "";
+  }
+}
+
+// draw point
+function drawPoint(arr, x, y) {
+  if (y === 0) {
+    arr[GRAPH_RANGE - x - 1][y + 1] = "* ";
+  } else {
+    arr[GRAPH_RANGE - x - 1][y + 1] = " * ";
   }
   return arr;
 }
 
-// +
-graph24[23][1] = "+";
-
-function draw(arr) {
+function print(arr) {
+  let graph = "";
   for (let i = 0; i < arr.length; i++) {
+    let temp = "";
     for (let j = 0; j < arr.length; j++) {
-      console.log(`arr[${i}][${j}]: ${arr[i][j]}`);
+      temp += arr[i][j];
     }
+    console.log(y(`${temp}`));
   }
+  return graph;
 }
 
-// draw(graph24);
+function drawGraph() {
+  let graph24 = graphArr();
+  axisX(graph24);
+  numAxisX(graph24);
+  axisY(graph24);
+  numAxisY(graph24);
+  whiteSpace(graph24);
+  return graph24;
+}
+
+module.exports = { drawGraph, drawPoint, print };

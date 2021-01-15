@@ -9,7 +9,7 @@
       "request": "launch",
       "name": "Node",
       "skipFiles": ["<node_internals>/**"],
-      "program": "${workspaceFolder}/cs-10/cs-04/02-graph.js",
+      "program": "${workspaceFolder}/cs-10/cs-04/ll.js",
       "runtimeExecutable": "/home/raccoon/.nvm/versions/node/v14.15.4/bin/node"
     }
   ]

@@ -4,21 +4,36 @@
 // map, filter, reduce 고차 함수를 활용한다.
 // 출력을 위해서는 반드시 클로저(또는 람다)를 선언하고 반복문 대신 reduce를 활용해서 출력해야 한다.
 
-const { ClassifierAlpha } = require("../functionalProgramming/classifierAlpha.js");
-const { PrimeAlpha } = require("../functionalProgramming/primeAlpha.js");
+let chalk = require("chalk");
+let y = chalk.yellow;
+let b = chalk.blue;
+let r = chalk.red;
+let g = chalk.green;
+let m = chalk.magenta;
+let w = chalk.white;
 
-//====================== ClssifierAlpha =====================
+const { isPerfect, isAbundant, isDeficient, isPrime } = require("../functionalProgramming/classifierAlpha.js");
 
-var alpha1 = new ClassifierAlpha(10);
-var alpha2 = new ClassifierAlpha(6);
+const getArr = (min, max) => Array.from({ length: max - min + 1 }, (_, i) => i + min);
 
-// console.log(alpha1.isPerfect());
-// console.log(alpha2.isPerfect());
+const print = getArr(2, 100).reduce((acc, cur) => {
+  const checkNumber = (num) => {
+    let arr = [];
+    if (isPerfect(num)) {
+      arr.push("perfect");
+    } else if (isAbundant(num)) {
+      arr.push("abundant");
+    } else if (isDeficient(num)) {
+      arr.push("deficient");
+    }
+    if (isPrime(num)) {
+      arr.push("prime");
+    }
+    return arr;
+  };
 
-//======================== PrimeAlpha ========================
+  acc += console.log(`${g(`${cur}`)} : ${y(`${checkNumber(cur).join(", ")}`)}`);
+  return acc;
+}, "");
 
-var prime1 = new PrimeAlpha(10);
-var prime2 = new PrimeAlpha(7);
-
-// console.log(prime1.isPrime());
-// console.log(prime2.isPrime());
+print;

@@ -24,3 +24,4 @@
 ### Reference
 
 - [Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript#modules)
+- [[번역] Node.js V8 내부 : 예시적 지침서](https://medium.com/sjk5766/%EB%B2%88%EC%97%AD-node-js-v8-%EB%82%B4%EB%B6%80-%EC%98%88%EC%8B%9C%EC%A0%81-%EC%A7%80%EC%B9%A8%EC%84%9C-326e57f9727e)

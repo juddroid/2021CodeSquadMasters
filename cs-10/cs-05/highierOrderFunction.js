@@ -4,7 +4,7 @@
 // map, filter, reduce 고차 함수를 활용한다.
 // 출력을 위해서는 반드시 클로저(또는 람다)를 선언하고 반복문 대신 reduce를 활용해서 출력해야 한다.
 
-let chalk = require("chalk");
+let chalk = require('chalk');
 let y = chalk.yellow;
 let b = chalk.blue;
 let r = chalk.red;
@@ -12,7 +12,7 @@ let g = chalk.green;
 let m = chalk.magenta;
 let w = chalk.white;
 
-const { isPerfect, isAbundant, isDeficient, isPrime } = require("../functionalProgramming/classifierAlpha.js");
+const { isPerfect, isAbundant, isDeficient, isPrime } = require('../functionalProgramming/classifierAlpha.js');
 
 const getArr = (min, max) => Array.from({ length: max - min + 1 }, (_, i) => i + min);
 
@@ -20,20 +20,20 @@ const print = getArr(2, 100).reduce((acc, cur) => {
   const checkNumber = (num) => {
     let arr = [];
     if (isPerfect(num)) {
-      arr.push("perfect");
+      arr.push('perfect');
     } else if (isAbundant(num)) {
-      arr.push("abundant");
+      arr.push('abundant');
     } else if (isDeficient(num)) {
-      arr.push("deficient");
+      arr.push('deficient');
     }
     if (isPrime(num)) {
-      arr.push("prime");
+      arr.push('prime');
     }
     return arr;
   };
 
-  acc += console.log(`${g(`${cur}`)} : ${y(`${checkNumber(cur).join(", ")}`)}`);
+  acc += console.log(`${g(`${cur}`)} : ${y(`${checkNumber(cur).join(', ')}`)}`);
   return acc;
-}, "");
+}, '');
 
 print;

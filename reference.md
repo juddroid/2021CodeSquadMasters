@@ -20,3 +20,7 @@
   - REDIRECTION
 - 20210113
   - nodejs 모듈 chalk
+
+### Reference
+
+- [Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript#modules)

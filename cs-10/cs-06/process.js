@@ -1,11 +1,3 @@
-// 오버쿡드 3가지 맛 라면 끓이기
-// 보통라면: 냄비세팅(1), 물끓이기(3), 면넣고익히기(5), 완성[9]
-// 짜장라면: 냄비세팅(1), 물끓이기(3), 면넣고익히기(5), 물붓기(1), 소스섞기(2), 완성[12]
-// 해물라면: 냄비세팅(1), 물끓이기(3), 해물투척(5), 면넣고익히기(5), 완성[14]
-// 공통: 냄비세팅(1), 물끓이기(3), 면넣고익히기(5), 완성
-// single thread
-// multi thread 2
-
 // 운영체제가 다루는 프로세스를 일정한 시간동안 실행하는 프로그램을 구현한다.
 // 프로세스 종류를 4개 정하고, 프로세스 마다 최대 동작 시간을 겹치지 않도록 결정한다.
 // 예) 프로세스A : 3초, 프로세스B : 5초, 프로세스C : 7초, 프로세스D : 11초
@@ -20,6 +12,7 @@
 // 프로그램은 1초마다 전체 프로세스 상태와 누적 실행 시간을 표시한다.
 // 프로그램은 모든 프로세스가 멈추고 나면 종료한다.
 // 동작 예시에서 "." 점은 초단위로 시간이 지나가는 것을 표현한 예시일 뿐, 시간 흐름을 표현하면 출력 형식이 완벽하게 동일할 필요는 없다.
+
 let chalk = require('chalk');
 let y = chalk.yellow;
 let b = chalk.blue;
@@ -66,31 +59,28 @@ const Random = {
 const Print = {
   currentInfo: (process) => {
     console.log(``);
-    console.log(b(` =============== Create ${process.length} Processes =============== `));
+    console.log(b(` ================ Create ${process.length} Processes ================ `));
     console.table(process);
   },
 
   execListInfo: (process) => {
     console.log(``);
-    console.log(m(` =========== ${process.length} Processes ready to Exec ============ `));
+    console.log(m(` ============ ${process.length} Processes ready to Exec ============= `));
     console.table(process);
   },
-  currentQueue: (queue) => {
+  execResult: (queue) => {
     let print = Array.from({ length: queue.processList.length }, (_, i) => i);
     console.log(``);
-    console.log(g(`=====================================`));
+    console.log(g(`===============================================`));
     console.log(``);
     let basicPrint = print.map(
       (el, i) =>
-        (el[
-          i
-        ] = `${queue.processList[i].name}(${queue.processList[i].current}), ${queue.processList[i].elapsed} / ${queue.processList[i].second}sec\n`)
+        (el = `${queue.processList[i].name}(${queue.processList[i].current}), ${queue.processList[i].elapsed} / ${queue.processList[i].second}sec\n`)
     );
-
     let lastPrint = basicPrint.join('');
     console.log(y(lastPrint));
 
-    console.log(g(`=====================================`));
+    console.log(g(`===============================================`));
   },
 };
 
@@ -106,56 +96,93 @@ class Process {
 class Queue {
   constructor(processList) {
     this.processList = processList;
-    this.controlSet = {
-      waiting: [],
-      running: [],
-      terminated: [],
-    };
     this.queue = null;
+    this.count = 0;
+    this.keepGoing = true;
   }
 
   initializing() {
     for (const key of this.processList) {
       key.current = status.WAITING;
     }
-    this.controlSet.waiting = this.processList;
-    this.queue = this.controlSet.waiting[0];
+    this.queue = this.processList[0];
+    this.print();
   }
 
-  que() {
-    return queue;
+  nextQue() {
+    if (this.isTerminated()) {
+      this.queue.current = status.TERMINATED;
+    }
+
+    if (this.queue.current === status.RUNNING) {
+      this.queue.current = status.WAITING;
+    }
+
+    let terminated = this.processList.filter((el) => el.current === status.TERMINATED);
+    let waiting = this.processList.filter((el) => el.current === status.WAITING);
+    let elapsed = waiting.filter((el) => el.elapsed < this.queue.elapsed);
+
+    if (terminated.length === this.processList.length) {
+      this.print();
+      this.keepGoing = false;
+      return this.printExit();
+    }
+    if (elapsed.length === 0) {
+      this.queue = waiting[0];
+    } else if (elapsed.length === 0 && waiting.length === 0) {
+      console.log('here');
+      this.queue = this.queue;
+    } else {
+      this.queue = elapsed[0];
+    }
   }
 
   processExecutor() {
     this.queue.elapsed++;
     this.queue.current = status.RUNNING;
-    this.controlSet.running.push(this.queue);
-    console.log(this.controlSet.waiting.filter((el) => el.current === status.RUNNING));
+    this.print();
+    this.nextQue();
+  }
+
+  isTerminated() {
+    // let terminated = this.processList.filter((el) => el.current === status.TERMINATED);
+    return this.queue.elapsed === this.queue.second;
+
+    // if (terminated.length === this.processList.length) {
+    //   this.print();
+    //   return this.printExit();
+    // }
+  }
+
+  print() {
+    // let print = Array.from({ length: this.processList.length }, (_, i) => `${i}`);
+    if (this.count < 10) {
+      this.count = ` ${this.count}`;
+    }
+    console.log(``);
+    console.log(g(`========================= ${this.count}sec =========================`));
+    console.log(``);
+    // let basicPrint = print.map(
+    //   (_, i) =>
+    //     `${this.processList[i].name}(${this.processList[i].current}), ${this.processList[i].elapsed} / ${this.processList[i].second}sec\n`
+    // );
+    // let lastPrint = basicPrint.join('');
+    // console.log(y(lastPrint));
+    console.table(this.processList);
+    console.log(g(`=========================================================`));
+    this.count++;
+  }
+
+  printExit() {
+    console.log(m(`=========================================================`));
+    console.log(`${m(`================= `)}${y(`F   I   N   I   S   H`)}${m(` =================`)}`);
+    console.log(m(`=========================================================`));
   }
 }
 
-// ================= create process ================
-const currentProcessList = Random.createList(4);
-const currentExecProcessList = Random.execList(currentProcessList);
+// console.log(`queue`);
+// console.table(queue.queue);
+// console.log(`process`);
+// console.table(queue.processList);
 
-// =================== print =======================
-const currentInfo = Print.currentInfo(currentProcessList);
-const execInfo = Print.execListInfo(currentExecProcessList);
-
-// ===================== Que =======================
-const queue = new Queue(currentExecProcessList);
-
-function run() {
-  queue.initializing();
-  Print.currentQueue(queue);
-  queue.processExecutor();
-  Print.currentQueue(queue);
-}
-
-run();
-
-console.table(queue.controlSet.waiting[0].current);
-console.table(queue.controlSet.waiting);
-console.table(queue.controlSet.running);
-console.table(queue.controlSet.terminated);
-console.table(queue.queue);
+module.exports = { Print, Random, status, Queue, Process };

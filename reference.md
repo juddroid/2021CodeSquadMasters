@@ -25,6 +25,7 @@
 
 - [Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript#modules)
 - [[번역] Node.js V8 내부 : 예시적 지침서](https://medium.com/sjk5766/%EB%B2%88%EC%97%AD-node-js-v8-%EB%82%B4%EB%B6%80-%EC%98%88%EC%8B%9C%EC%A0%81-%EC%A7%80%EC%B9%A8%EC%84%9C-326e57f9727e)
+- [자바스크립트 개발자라면 알아야 할 33가지 개념 #10 스케쥴링: setTimeout 과 setInterval](https://velog.io/@jakeseo_me/%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8-%EA%B0%9C%EB%B0%9C%EC%9E%90%EB%9D%BC%EB%A9%B4-%EC%95%8C%EC%95%84%EC%95%BC-%ED%95%A0-33%EA%B0%80%EC%A7%80-%EA%B0%9C%EB%85%90-10-%EC%8A%A4%EC%BC%80%EC%A5%B4%EB%A7%81-setTimeout-%EA%B3%BC-setInterval-y6juukjsey)
 
 ### Want to do
 

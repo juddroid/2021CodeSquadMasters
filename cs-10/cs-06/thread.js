@@ -8,3 +8,107 @@
 // 프로그램은 모든 프로세스 작업이 끝나면 종료한다.
 
 // 화면 구성과 출력 양식은 자신만의 스타일로 표현해도 된다.
+
+const { Print, Random, status, Queue, Process } = require('./process.js');
+
+class Thread extends Process {
+  constructor(name, second) {
+    super(name, second);
+    this.thread = 1;
+  }
+}
+
+class ThreadQueue extends Queue {
+  threadExecutor() {
+    this.queue.elapsed += this.queue.thread;
+    if (this.queue.elapsed > this.queue.second) {
+      this.queue.elapsed = this.queue.second;
+    }
+    this.queue.current = status.RUNNING;
+    this.print();
+    this.nextQue();
+  }
+  // waiting 배열에서 다음 큐를 찾을 때, 기준변경 필요
+  // threadNextQue() {
+  //   if (this.isTerminated()) {
+  //     this.queue.current = status.TERMINATED;
+  //   }
+
+  //   if (this.queue.current === status.RUNNING) {
+  //     this.queue.current = status.WAITING;
+  //   }
+
+  //   let terminated = this.processList.filter((el) => el.current === status.TERMINATED);
+  //   let waiting = this.processList.filter((el) => el.current === status.WAITING);
+  //   let elapsed = waiting.filter((el) => el.elapsed < this.queue.elapsed);
+
+  //   if (terminated.length === this.processList.length) {
+  //     this.print();
+  //     this.keepGoing = false;
+  //     return this.printExit();
+  //   }
+  //   if (elapsed.length === 0) {
+  //     this.queue = waiting[0];
+  //   } else if (elapsed.length === 0 && waiting.length === 0) {
+  //     console.log('here');
+  //     this.queue = this.queue;
+  //   } else {
+  //     this.queue = elapsed[0];
+  //   }
+  // }
+}
+
+const RandomThread = {
+  createList: (num) => {
+    const randomProcessTime = (num) => {
+      const temp = () => Math.floor(Math.random() * (10 - 0) + 1);
+      let tempArr = [];
+      while (tempArr.length !== num) {
+        tempArr.push(temp());
+        tempSet = new Set(tempArr);
+        tempArr = Array.from(tempSet);
+      }
+      return tempArr;
+    };
+    let arr = Array.from({ length: num }, (_, i) => i);
+    let randomProcessTimeList = randomProcessTime(num);
+    let list = arr.map((el, i) => (el[i] = new Thread(`Process${i + 1}`, randomProcessTimeList[i])));
+    return list;
+  },
+};
+
+// ================= create process ================
+const currentProcessList = RandomThread.createList(3);
+currentProcessList.map((el) => {
+  if (parseInt(el.second / 2) === 0) {
+    el.thread = 1;
+  } else {
+    el.thread = parseInt(el.second / 2);
+  }
+  return el;
+});
+
+// =================== print =======================
+Print.currentInfo(currentProcessList);
+
+// ===================== Que =======================
+const queue = new ThreadQueue(currentProcessList);
+
+function run() {
+  function exec() {
+    queue.threadExecutor();
+    if (queue.keepGoing) {
+      setTimeout(exec, 1000);
+    }
+  }
+
+  queue.initializing();
+
+  exec();
+  // setInterval(() => queue.processExecutor(), 1000);
+}
+
+run();
+
+// queue.initializing();
+// queue.threadExcutor();

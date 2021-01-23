@@ -25,3 +25,13 @@
 
 - [Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript#modules)
 - [[번역] Node.js V8 내부 : 예시적 지침서](https://medium.com/sjk5766/%EB%B2%88%EC%97%AD-node-js-v8-%EB%82%B4%EB%B6%80-%EC%98%88%EC%8B%9C%EC%A0%81-%EC%A7%80%EC%B9%A8%EC%84%9C-326e57f9727e)
+
+### Want to do
+
+- 마크다운 에디터 알아보기
+- 리퀴드를 익혀볼까
+- sort
+- Math.max
+- 마크다운 폴더로 카테고리 나누기
+- 지킬 html 가능한지 실험해보기
+- 마크다운 테이블 링크 세팅

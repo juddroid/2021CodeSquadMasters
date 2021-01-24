@@ -42,6 +42,7 @@ const Random = {
       return tempArr;
     };
     let arr = Array.from({ length: num }, (_, i) => i);
+    // let randomProcessTimeList = randomProcessTime(num);
     let randomProcessTimeList = randomProcessTime(num);
     let list = arr.map((el, i) => (el[i] = new Process(`Process${i + 1}`, randomProcessTimeList[i])));
     return list;
@@ -120,6 +121,7 @@ class Queue {
 
     let terminated = this.processList.filter((el) => el.current === status.TERMINATED);
     let waiting = this.processList.filter((el) => el.current === status.WAITING);
+
     let elapsed = waiting.filter((el) => el.elapsed < this.queue.elapsed);
 
     if (terminated.length === this.processList.length) {

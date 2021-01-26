@@ -53,6 +53,7 @@ const EventEmitter = require('events');
 const emitter = new EventEmitter();
 
 let chalk = require('chalk');
+const { setInterval } = require('timers');
 let y = chalk.yellow;
 let b = chalk.blue;
 let r = chalk.red;
@@ -78,69 +79,112 @@ const MENU = {
   },
 };
 
-// ============================== Manager =================================
-class Manager {
-  constructor() {
-    this.guest = 1;
-    emitter.on('addQueue', () => {
-      // setInterval(() => {
-      this.checkQueue();
-      // }, 1000);
-    });
-  }
-
-  checkQueue() {
-    if (Object.keys(QUEUE).length - 3 > 0) {
-      // QUEUE에 작업 있음
-      this.checkBarista();
-    }
-  }
-
-  checkBarista() {
-    if (barista.working.length < 1) {
-      barista.working.push(QUEUE[this.guest]);
-      delete QUEUE[this.guest];
-      this.guest++;
-      console.table(QUEUE);
-      console.table(barista.working);
-      barista.making();
-    }
-  }
-}
-
 // ============================== Cashier =================================
 
 class Cashier {
-  constructor(guest, order, cups) {
-    this.guest = guest;
-    this.order = order;
-    this.cups = cups;
+  constructor() {
+    this.readline = require('readline');
+    this.rl = this.readline.createInterface({
+      input: process.stdin,
+      output: process.stdout,
+      prompt: `😃 May I Take Your Order: `,
+    });
+
+    this.guestNumber = 0;
     this.queue = {};
-    emitter.on('order', () => this.addQueue());
   }
 
-  orderList() {
+  onDuty() {
+    this.order();
+    this.waiting();
+  }
+
+  waiting() {
+    this.rl.prompt();
+    this.rl.on('line', (order) => {
+      console.log(`Thank you 😄 plz Check your order: ${order}`);
+      let orders = order.split(':');
+      emitter.emit('order', ++this.guestNumber, orders[0], orders[1]);
+
+      if (order === 'q') {
+        rl.close();
+      }
+    });
+  }
+
+  order() {
+    emitter.on('order', (guest, drink, cups) => {
+      this.addQueue(guest, drink, cups);
+    });
+  }
+
+  addQueue(guest, drink, cups) {
     for (const idx in MENU) {
-      if (idx === this.order) {
-        this.queue = {
-          order: MENU[idx].emoji,
-          cups: this.cups,
+      if (idx === drink) {
+        this.queue[guest] = {
+          drink: MENU[idx].emoji,
+          cups: cups,
           sec: MENU[idx].sec,
         };
       }
     }
-    console.log(``);
-    console.log(y(` == CURRENT ORDER ==`));
-    console.table(this.queue);
+    this.sayOrder();
   }
 
-  addQueue() {
-    this.orderList();
-    QUEUE[this.guest] = this.queue;
+  // 주문받았습니다~
+  sayOrder() {
     console.log(``);
-    console.log(y(`===================== QUEUE =====================`));
-    console.table(QUEUE);
-    return emitter.emit('addQueue', QUEUE);
+    console.log(y(`========== Order List ==========`));
+    console.table(this.queue);
+  }
+}
+
+// ============================== Manager =================================
+class Manager {
+  constructor(queue) {
+    this.queue = queue;
+  }
+
+  onDuty() {
+    setInterval(() => {
+      this.checkQueue();
+    }, 1000);
+    emitter.on('done', (curr) => this.updateDashBoard(curr));
+  }
+
+  checkQueue() {
+    if (Object.keys(cashier.queue).length > 0) {
+      this.checkBarista();
+    }
+  }
+
+  addOrder() {
+    let firstQ = this.queue[Object.keys(this.queue)[0]];
+
+    let order = {
+      guest: cashier.guestNumber,
+      drink: firstQ.drink,
+      sec: firstQ.sec,
+    };
+
+    if (firstQ.cups === 0) {
+      return delete this.queue[Object.keys(this.queue)[0]];
+    }
+    barista.working.push(order);
+    firstQ.cups--;
+  }
+
+  checkBarista() {
+    if (barista.working.length < 2) {
+      this.addOrder();
+      emitter.emit('making');
+    }
+  }
+
+  updateDashBoard(info) {
+    // info.status = 'done';
+    // console.log(info);
+    // console.table(cashier.queue);
   }
 }
 
@@ -151,78 +195,74 @@ class Barista {
     this.working = [];
   }
 
+  onDuty() {
+    emitter.on('making', () => this.making());
+  }
+
   making() {
-    function baristaQueue(obj) {
-      let queue = [];
-      for (const key in obj) {
-        if (key === 'order') {
-          for (let i = 0; i < obj.cups; i++) {
-            queue.push(obj[key]);
-          }
-        }
-      }
-      return queue;
+    const self = this;
+    function delay(ms) {
+      return new Promise((resolve) => setTimeout(resolve, ms));
+    }
+    async function drink(curr) {
+      self.sayStart(curr);
+      await delay(curr.sec * 1000);
+      self.sayFinish(curr);
+      self.working.shift();
     }
 
-    let work = baristaQueue(this.working[0]);
+    console.log(`============ CURRENT ============`);
+    console.table(this.working);
+    let current = this.working[0];
+
+    drink(current);
+  }
+
+  sayStart(curr) {
+    console.log(y(`START => GUEST${curr.guest} => ${curr.drink}`));
+  }
+
+  sayFinish(curr) {
+    console.log(g(`DONE => GUEST${curr.guest} => ${curr.drink}`));
+    emitter.emit('done', curr);
+  }
+}
+
+class DashBoard {
+  constructor(queue) {
+    this.queue = queue;
+  }
+}
+
+class Cafe {
+  // cafe open
+  open() {
     console.log(``);
-    console.log(y(` === BARISTA QUEUE ===`));
-    console.log(work);
-    // this.sayStart(work);
-  }
-
-  sayStart(print) {}
-
-  finish() {}
-}
-
-// ============================== Queue =================================
-
-class Queue extends EventEmitter {}
-
-// ============================ Dash Board ===============================
-
-class DashBoard extends Queue {
-  constructor(status) {
-    super();
-    this.status = status;
+    console.log(`${y(` =======`)} ${m(`WELCOME TO RACCOON CAFE`)} ${y(`=======`)}`);
+    console.table(MENU);
   }
 }
 
-// ============================== print =================================
+// ========================== R A C C O O N  C A F E =============================
 
-console.log(``);
-console.log(`${y(` =======`)} ${m(`WELCOME TO RACCOON CAFE`)} ${y(`=======`)}`);
-console.table(MENU);
+// completion
+const RaccoonCafe = new Cafe();
 
-const readline = require('readline');
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-  prompt: `Order: `,
-});
+// worker
+const cashier = new Cashier();
+const manager = new Manager(cashier.queue);
+const barista = new Barista();
 
-let GN = 1;
+const dashBoard = new DashBoard(cashier.queue);
 
-let QUEUE = new Queue();
-let barista = new Barista();
+// RacconCafe Open
+RaccoonCafe.open();
 
-// ============================ read line ================================
+// Cashier on duty
+cashier.onDuty();
 
-rl.prompt();
-rl.on('line', (order) => {
-  console.log(`Thank you for your order: ${order}`);
+// Manager on duty
+manager.onDuty();
 
-  let orders = order.split(':');
-
-  let cashier = new Cashier(GN++, orders[0], orders[1]);
-  let manager = new Manager();
-
-  emitter.emit('order');
-
-  if (order === 'q') {
-    rl.close();
-  }
-});
-
-// =======================================================================
+// Barista on duty
+barista.onDuty();

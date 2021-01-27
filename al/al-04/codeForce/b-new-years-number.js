@@ -11,14 +11,27 @@ let w = chalk.white;
 const input = [1, 4041, 4042, 8081, 8079];
 const output = ['NO', 'YES', 'YES', 'YES', 'NO'];
 
+// var cnt = +readline();
+// var arr = [];
+// for(var i = 0; i < cnt; i++) {
+//     arr.push(readline());
+// }
+
 function newYearsNumber(n) {
-  if (n % 2 === 0) {
-    n - 2020;
-  } else {
-    n - 2021;
+  if (n < 2020) {
+    return 'NO';
   }
-  return;
+
+  if (n % 2020 === 0 || n % 2021 === 0) {
+    return 'YES';
+  }
+
+  return newYearsNumber(n - 2021);
 }
+
+// for (var i = 0; i < arr.length; i++) {
+//   print(newYearsNumber(arr[i]))
+// }
 
 function test(expected) {
   for (let i = 0; i < input.length; i++) {

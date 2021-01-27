@@ -10,19 +10,11 @@ let w = chalk.white;
 const input = [2, 3, 4, 5, 998244353, 1099511627776];
 const output = ['NO', 'YES', 'NO', 'YES', 'YES', 'NO'];
 
-// var fs = require('fs');
-// var input = fs.readFileSync('./a-data.js').toString().split('\n');
-// console.log(input);
-
-const readline = require('readline').createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-// multi line input
-readline.on('line', (line) => {
-  print(oddDivisor(line));
-});
+var cnt = +readline();
+var arr = [];
+for (var i = 0; i < cnt; i++) {
+  arr.push(readline());
+}
 
 function oddDivisor(n) {
   if (n !== 1 && n % 2 === 1) {
@@ -32,6 +24,10 @@ function oddDivisor(n) {
     return 'NO';
   }
   return oddDivisor(Math.floor(n / 2));
+}
+
+for (var i = 0; i < arr.length; i++) {
+  print(oddDivisor(arr[i]));
 }
 
 function test(expected) {

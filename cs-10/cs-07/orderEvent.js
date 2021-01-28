@@ -52,8 +52,9 @@
 const EventEmitter = require('events');
 const emitter = new EventEmitter();
 
-let chalk = require('chalk');
 const { setInterval } = require('timers');
+let chalk = require('chalk');
+const { emit } = require('process');
 let y = chalk.yellow;
 let b = chalk.blue;
 let r = chalk.red;
@@ -129,6 +130,7 @@ class Cashier {
       }
     }
     this.sayOrder();
+    manager.checkDashBoard(this.queue);
   }
 
   // 주문받았습니다~
@@ -143,13 +145,15 @@ class Cashier {
 class Manager {
   constructor(queue) {
     this.queue = queue;
+    this.managerQueue = this.queue;
   }
 
   onDuty() {
     setInterval(() => {
       this.checkQueue();
     }, 1000);
-    emitter.on('done', (curr) => this.updateDashBoard(curr));
+
+    // emitter.on('done', (curr) => this.updateDashBoard(curr));
   }
 
   checkQueue() {
@@ -172,7 +176,14 @@ class Manager {
     }
     barista.working.push(order);
     firstQ.cups--;
+    if (firstQ.cups === 0) {
+      return delete this.queue[Object.keys(this.queue)[0]];
+    }
+    console.table(this.queue);
+    console.table(this.managerQueue);
   }
+
+  deleteQueue() {}
 
   checkBarista() {
     if (barista.working.length < 2) {
@@ -181,10 +192,10 @@ class Manager {
     }
   }
 
-  updateDashBoard(info) {
-    // info.status = 'done';
-    // console.log(info);
-    // console.table(cashier.queue);
+  checkDashBoard(queue) {
+    // console.log(``);
+    // console.log(b(`========== DASH BOARD ==========`));
+    // console.table(queue);
   }
 }
 
@@ -211,7 +222,7 @@ class Barista {
       self.working.shift();
     }
 
-    console.log(`============ CURRENT ============`);
+    console.log(`============ BARISTA ============`);
     console.table(this.working);
     let current = this.working[0];
 

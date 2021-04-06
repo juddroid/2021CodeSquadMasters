@@ -99,14 +99,21 @@ function checkShortString(id, length) {
   return idList.join('');
 }
 
+const pipe = (...fns) => (arg) => fns.reduce((acc, cur) => cur(acc), arg);
+
 function solution(new_id) {
-  const lowerCase = changeLowerCase(new_id);
-  const filterString = removeUselessString(lowerCase);
-  const mergeDotString = removeLinearDot(filterString);
-  const newID = removeEdgeDot(mergeDotString);
-  const checkEmptyID = checkEmpty(newID);
+  // const lowerCase = changeLowerCase(new_id);
+  // const filterString = removeUselessString(lowerCase);
+  // const mergeDotString = removeLinearDot(filterString);
+  // const newID = removeEdgeDot(mergeDotString);
+  // const checkEmptyID = checkEmpty(newID);
+
+  const pipeOutput = pipe(changeLowerCase, removeUselessString, removeLinearDot, removeEdgeDot, checkEmpty);
+  const checkEmptyID = pipeOutput(new_id);
+
   const checkLongID = checkLongString(checkEmptyID, 15);
   const checkShortID = checkShortString(checkLongID, 2);
+
   return checkShortID;
 }
 

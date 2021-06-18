@@ -1,11 +1,12 @@
-const X = 10;
-const Y = 85;
-const D = 30;
+const X = 1;
+const Y = 5;
+const D = 2;
 
 function solution(X, Y, D) {
-  for (let i = 1; i < 10000000000; i++) {
-    if (X + D * i >= Y) return i;
-  }
+  if (Y < D || X >= Y) return 0;
+  return (Y - X) % D === 0
+    ? Math.floor((Y - X) / D)
+    : Math.floor((Y - X) / D + 1);
 }
 
 let result = solution(X, Y, D);

@@ -1,34 +1,18 @@
-const N = 34879;
+const N = 24;
 
 function solution(N) {
   let factorList = [];
-  let current = N;
 
-  if (N === 1) return 1;
-
-  for (let i = 2; i < N; i++) {
-    while (current % i === 0) {
-      factorList.push(i);
-      current = current / i;
+  for (let i = 0; i < Math.sqrt(N); i++) {
+    if (N % (i + 1) === 0) {
+      factorList.push(i + 1);
+      factorList.push(N / (i + 1));
     }
   }
 
-  if (current !== 1) factorList.push(current);
+  let list = Array.from(new Set(factorList));
 
-  let dic = {};
-
-  for (let i = 0; i < factorList.length; i++) {
-    if (dic[factorList[i]]) dic[factorList[i]]++;
-    else dic[factorList[i]] = 1;
-  }
-
-  if (Object.values(dic).length === 0) return 2;
-
-  let result = Object.values(dic)
-    .map((el) => el + 1)
-    .reduce((acc, cur) => (acc *= cur), 1);
-
-  return result;
+  return list.length;
 }
 
 let result = solution(N);

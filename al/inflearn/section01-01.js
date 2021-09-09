@@ -8,4 +8,4 @@ function solution(a, b, c) {
   return temp;
 }
 
-console.log(solution(99, 88, 77));
+console.log(solution(6, 5, 3));

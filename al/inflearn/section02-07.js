@@ -9,45 +9,20 @@ let arr = [
 ];
 
 function solution(arr) {
-  let maxRowSum = 0;
-  let maxColSum = 0;
-  let maxCroSum = 0;
+  let count = 0;
 
   for (let i = 0; i < arr.length; i++) {
-    let sum = arr[i].reduce((acc, cur) => (acc += cur), 0);
-    if (sum > maxRowSum) maxRowSum = sum;
-  }
-  for (let i = 0; i < arr.length; i++) {
-    let temp = [];
     for (let j = 0; j < arr.length; j++) {
-      temp.push(arr[j][i]);
-    }
-    let sum = temp.reduce((acc, cur) => (acc += cur), 0);
-    if (sum > maxCroSum) maxCroSum = sum;
-  }
-
-  let temp = [];
-  for (let i = 0; i < arr.length; i++) {
-    for (let j = 0; j < arr.length; j++) {
-      if (i === j) temp.push(arr[i][j]);
+      let top = i - 1 < 0 ? 0 : arr[i - 1][j];
+      let left = j - 1 < 0 ? 0 : arr[i][j - 1];
+      let right = j + 1 > arr.length - 1 ? 0 : arr[i][j + 1];
+      let bottom = i + 1 > arr.length - 1 ? 0 : arr[i + 1][j];
+      let max = Math.max(top, left, right, bottom, arr[i][j]);
+      if (max === arr[i][j]) count++;
     }
   }
 
-  let sum = temp.reduce((acc, cur) => (acc += cur), 0);
-  if (sum > maxCroSum) maxCroSum = sum;
-
-  let temp2 = [];
-  for (let i = 0; i < arr.length; i++) {
-    for (let j = 0; j < arr.length; j++) {
-      if (i + j === arr.length - 1) {
-        temp2.push(arr[i][j]);
-      }
-    }
-  }
-  let sum2 = temp2.reduce((acc, cur) => (acc += cur), 0);
-  if (sum2 > maxCroSum) maxCroSum = sum2;
-
-  return Math.max(maxRowSum, maxColSum, maxCroSum);
+  return count;
 }
 
 console.log(solution(arr));

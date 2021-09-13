@@ -25,13 +25,12 @@ function solution(arr) {
       for (let j = S - 1; j >= 1; j--) {
         queue[j] = queue[j - 1];
       }
-      queue[0] = arr[i];
     } else {
       for (let j = pos; j >= 1; j--) {
         queue[j] = queue[j - 1];
       }
-      queue[0] = arr[i];
     }
+    queue[0] = arr[i];
   }
 
   return queue;

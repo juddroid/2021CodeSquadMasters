@@ -14,5 +14,5 @@ function solution(arr) {
   return arr;
 }
 
-console.log(solution(arr));
+let nums = console.log(solution(arr));
 console.timeEnd('timer');

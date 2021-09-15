@@ -1,10 +1,10 @@
 console.time('timer');
 
 const C = 259;
-const K = [81, 58, 42, 33, 61];
-// const K = Array(30)
-//   .fill(0)
-//   .map((el, idx) => idx + 1);
+// const K = [81, 58, 42, 33, 61];
+const K = Array(30)
+  .fill(0)
+  .map((el, idx) => idx + 1);
 
 function solution(C, K) {
   K.sort((a, b) => b - a);
@@ -12,6 +12,7 @@ function solution(C, K) {
 
   const dfs = (i, sum) => {
     if (sum >= C) return;
+    // if (answer > sum) return;
     if (i === K.length) {
       answer = Math.max(sum, answer);
     } else {
